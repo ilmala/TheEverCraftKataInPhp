@@ -11,8 +11,14 @@ class Attack
     public function resolveHit(int $value): bool
     {
         if($value === 20) {
+            $this->opponent->takeCriticalDamage();
             return true;
         }
-        return $value >= $this->opponent->armorClass();
+        if($value >= $this->opponent->armorClass()){
+            $this->opponent->takeDamage();
+            return true;
+        }
+
+        return false;
     }
 }

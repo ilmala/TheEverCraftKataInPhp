@@ -9,6 +9,7 @@ class Character
     protected string $name;
     protected string $alignment = 'Neutral';
     protected int $armorClass = 10;
+    protected int $hitPoints = 5;
 
     public function setName(string $name): static
     {
@@ -41,6 +42,12 @@ class Character
         return $this->alignment;
     }
 
+    public function setArmorClass(int $value): static
+    {
+        $this->armorClass = $value;
+        return $this;
+    }
+
     public function armorClass(): int
     {
         return $this->armorClass;
@@ -48,12 +55,21 @@ class Character
 
     public function hitPoints(): int
     {
-        return 5;
+        return $this->hitPoints;
     }
 
-    public function setArmorClass(int $value): static
+    public function takeDamage(): void
     {
-        $this->armorClass = $value;
-        return $this;
+        $this->hitPoints -= 1;
+    }
+
+    public function takeCriticalDamage(): void
+    {
+        $this->hitPoints -= 2;
+    }
+
+    public function isDead(): bool
+    {
+        return $this->hitPoints <= 0;
     }
 }

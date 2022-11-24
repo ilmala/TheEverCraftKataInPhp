@@ -66,7 +66,6 @@ it('has an Armor Class that defaults to 10', function () {
 it('can set Armor Class', function () {
     $character = new Character;
     $character->setArmorClass(20);
-    var_dump($character->armorClass());
     expect($character->armorClass())->toBe(20);
 });
 
