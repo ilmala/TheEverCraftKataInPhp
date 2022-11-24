@@ -1,0 +1,30 @@
+{
+    "name": "luca.malattia/everkraft-kata",
+    "authors": [
+        {
+            "name": "luca.malattia",
+            "email": "luca.malattia@immobiliare.it"
+        }
+    ],
+    "require": {
+        "php": "^8.1"
+    },
+    "require-dev": {
+        "pestphp/pest": "^1.22"
+    },
+    "autoload": {
+        "psr-4": {
+            "EverKraft\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Test\\": "tests/"
+        }
+    },
+    "config": {
+        "allow-plugins": {
+            "pestphp/pest-plugin": true
+        }
+    }
+}
