@@ -8,6 +8,7 @@ class Character
 {
     protected string $name;
     protected string $alignment = 'Neutral';
+    protected int $armorClass = 10;
 
     public function setName(string $name): static
     {
@@ -40,13 +41,19 @@ class Character
         return $this->alignment;
     }
 
-    public function armorClass()
+    public function armorClass(): int
     {
-        return 10;
+        return $this->armorClass;
     }
 
-    public function hitPoints()
+    public function hitPoints(): int
     {
         return 5;
+    }
+
+    public function setArmorClass(int $value): static
+    {
+        $this->armorClass = $value;
+        return $this;
     }
 }

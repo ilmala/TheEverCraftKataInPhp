@@ -60,11 +60,18 @@ it('can not be invalid alignments', function () {
 it('has an Armor Class that defaults to 10', function () {
     $character = new Character;
 
-    expect($character->armorClass())->toBeInt(10);
+    expect($character->armorClass())->toBe(10);
+});
+
+it('can set Armor Class', function () {
+    $character = new Character;
+    $character->setArmorClass(20);
+    var_dump($character->armorClass());
+    expect($character->armorClass())->toBe(20);
 });
 
 it('has 5 Hit Points by default', function () {
     $character = new Character;
 
-    expect($character->hitPoints())->toBeInt(5);
+    expect($character->hitPoints())->toBe(5);
 });
