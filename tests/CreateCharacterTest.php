@@ -44,7 +44,27 @@ it('can be alignments Evil', function () {
     expect($character->alignment())->toBe("Evil");
 });
 
+it('can have default alignments to Neutral', function () {
+    $character = new Character;
+
+    expect($character->alignment())->toBe("Neutral");
+});
+
 it('can not be invalid alignments', function () {
     $character = new Character;
     $character->setAlignment('invalid-alignment');
 })->throws(InvalidAlignmentException::class, "Alignment can be only Good, Evil, and Neutral");
+
+// As a combatant I want to have an armor class and hit points so that
+// I can resist attacks from my enemies
+it('has an Armor Class that defaults to 10', function () {
+    $character = new Character;
+
+    expect($character->armorClass())->toBeInt(10);
+});
+
+it('has 5 Hit Points by default', function () {
+    $character = new Character;
+
+    expect($character->hitPoints())->toBeInt(5);
+});

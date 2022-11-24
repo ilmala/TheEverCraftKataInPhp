@@ -7,7 +7,7 @@ use EverKraft\Exceptions\InvalidAlignmentException;
 class Character
 {
     protected string $name;
-    protected string $alignment;
+    protected string $alignment = 'Neutral';
 
     public function setName(string $name): static
     {
@@ -38,5 +38,15 @@ class Character
     public function alignment(): string
     {
         return $this->alignment;
+    }
+
+    public function armorClass()
+    {
+        return 10;
+    }
+
+    public function hitPoints()
+    {
+        return 5;
     }
 }
