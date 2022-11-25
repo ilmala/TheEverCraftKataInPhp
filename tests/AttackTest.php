@@ -3,73 +3,67 @@ declare(strict_types=1);
 
 namespace Test;
 
-// As a combatant I want to be able to attack other combatants so that
-// I can survive to fight another day
 use EverKraft\Attack;
 use EverKraft\Character;
 
-// roll must meet or beat opponents armor class to hit
-// Opponent base Armour class is 10
-it('roll a 10 to hit opponent', function () {
-    $opponent = new Character();
-    $attack = new Attack($opponent);
-    $haveHitOpponent = $attack->resolveHit(10);
+it('hit if a roll beat the armour class', function () {
+    $hero = new Character;
+    $opponent = new Character;
+    $attack = new Attack($hero, $opponent);
+    $hitResult = $attack->resolveHit(12);
 
-    expect($haveHitOpponent)->toBeTrue;
+    expect($hitResult)->toBeTrue();
 });
 
-it('roll a 9 to miss opponent', function () {
-    $opponent = new Character();
-    $attack = new Attack($opponent);
-    $haveHitOpponent = $attack->resolveHit(9);
+it('hit if a roll meet the armour class', function () {
+    $hero = new Character;
+    $opponent = new Character;
 
-    expect($haveHitOpponent)->toBeFalse();
+    $attack = new Attack($hero, $opponent);
+
+    $hitResult = $attack->resolveHit(10);
+
+    expect($hitResult)->toBeTrue();
 });
 
-it('roll a natural 20 always hits opponent', function () {
-    $opponent = new Character();
-    $opponent->setArmorClass(25);
-    $attack = new Attack($opponent);
-    $haveHitOpponent = $attack->resolveHit(20);
+it('miss if a roll is less the armour class', function () {
+    $hero = new Character;
+    $opponent = new Character;
 
-    expect($haveHitOpponent)->toBeTrue();
+    $attack = new Attack($hero, $opponent);
+
+    $hitResult = $attack->resolveHit(6);
+
+    expect($hitResult)->toBeFalse();
 });
 
-// As an attacker I want to be able to damage my enemies
-// so that they will die and I will live
+it('hit always if roll a natural 20', function () {
+    $hero = new Character;
+    $opponent = new Character;
 
-it('takes 1 point of damage when hit other character', function () {
-    $opponent = new Character();
-    $attack = new Attack($opponent);
-    $attack->resolveHit(10);
+    $attack = new Attack($hero, $opponent);
+
+    $hitResult = $attack->resolveHit(20);
+
+    expect($hitResult)->toBeTrue();
+});
+
+it('add 1 point damage if hit', function () {
+    $hero = new Character;
+    $opponent = new Character;
+    $attack = new Attack($hero, $opponent);
+
+    $hitResult = $attack->resolveHit(12);
 
     expect($opponent->hitPoints())->toBe(4);
 });
 
-it('takes double poinst of damage when hit critical roll', function () {
-    $opponent = new Character();
-    $attack = new Attack($opponent);
-    $attack->resolveHit(20);
+it('double damage point if hit a natural 20', function () {
+    $hero = new Character;
+    $opponent = new Character;
+    $attack = new Attack($hero, $opponent);
+
+    $hitResult = $attack->resolveHit(20);
 
     expect($opponent->hitPoints())->toBe(3);
-});
-
-it('kill opponent when hit points are 0 or fewer,', function () {
-    $opponent = new Character();
-    $attack = new Attack($opponent);
-
-    $attack->resolveHit(20); // 3
-    expect($opponent)
-        ->hitPoints()->toBe(3)
-        ->isDead()->toBeFalse();
-
-    $attack->resolveHit(20); // 1
-    expect($opponent)
-        ->hitPoints()->toBe(1)
-        ->isDead()->toBeFalse();
-
-    $attack->resolveHit(10); // 0
-    expect($opponent)
-        ->hitPoints()->toBe(0)
-        ->isDead()->toBeTrue();
 });
