@@ -33,9 +33,9 @@ class Character
         return max($this->hitPoints + $this->constitution->modifier(), 1) - $this->damage;
     }
 
-    public function damage(int $point): void
+    public function applyDamage(int $damage): void
     {
-        $this->damage += $point;
+        $this->damage += $damage;
     }
 
     public function baseDamage(): int

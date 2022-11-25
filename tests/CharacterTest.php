@@ -98,22 +98,22 @@ it('is alive by default', function () {
 
 it('is alive for low damage ', function () {
     $character = new Character;
-    $character->damage(2);
+    $character->applyDamage(2);
     expect($character->isAlive())->toBeTrue();
 });
 
 it('is alive if have 1 hit point left', function () {
     $character = new Character;
-    $character->damage(4);
+    $character->applyDamage(4);
     expect($character->isAlive())->toBeTrue();
 });
 
 it('is dead when have 0 or less hit points ', function () {
     $character = new Character;
-    $character->damage(5);
+    $character->applyDamage(5);
     expect($character->isAlive())->toBeFalse();
 
-    $character->damage(2);
+    $character->applyDamage(2);
     expect($character->isAlive())->toBeFalse();
 });
 

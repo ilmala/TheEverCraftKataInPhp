@@ -13,14 +13,18 @@ class Attack
 
     public function resolveHit(int $roll): bool
     {
-        // todo: add str mod to roll
         $isCriticalHit = $roll === 20;
+        $roll = $roll + $this->character->strength->modifier();
         $hit = $roll >= $this->opponent->armorClass();
 
         if($isCriticalHit){
-            $this->opponent->damage(2);
+            $this->opponent->applyDamage(
+                damage: $this->character->criticalDamage(),
+            );
         }elseif($hit) {
-            $this->opponent->damage(1);
+            $this->opponent->applyDamage(
+                damage: $this->character->baseDamage(),
+            );
         }
 
         return $hit;
