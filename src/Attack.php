@@ -17,6 +17,10 @@ class Attack
         $roll = $roll + $this->character->strength->modifier();
         $hit = $roll >= $this->opponent->armorClass();
 
+        if($hit) {
+            $this->character->gainExperience();
+        }
+
         if($isCriticalHit){
             $this->opponent->applyDamage(
                 damage: $this->character->criticalDamage(),

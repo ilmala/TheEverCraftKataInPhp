@@ -158,3 +158,17 @@ it('minimum damage is always 1 even on critical hits', function () {
     expect($character->criticalDamage())->toBe(1);
 });
 
+// Experience
+it('has 0 Experience Points by default', function () {
+    $character = new Character;
+
+    expect($character->experience())->toBe(0);
+});
+
+it('can gains experience points', function () {
+    $character = new Character;
+    $character->gainExperience(10);
+
+    expect($character->experience())->toBe(10);
+});
+

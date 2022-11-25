@@ -138,3 +138,12 @@ it('cause less damage if is weak, minimum is always 1', function () {
     expect($opponent->hitPoints())->toBe(4);
 });
 
+// Experience
+it("gains 10 experience points when successful attack", function(){
+    $hero = new Character;
+    $opponent = new Character;
+    $attack = new Attack($hero, $opponent);
+    $attack->resolveHit(14);
+
+    expect($hero->experience())->toBe(10);
+});

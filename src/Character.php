@@ -12,6 +12,7 @@ class Character
     protected int $armorClass = 10;
     protected int $hitPoints = 5;
     public int $damage = 0;
+    protected int $experience = 0;
     public Ability $constitution;
     public Ability $dexterity;
     public Ability $strength;
@@ -53,5 +54,15 @@ class Character
     public function isAlive(): bool
     {
         return $this->hitPoints() > 0;
+    }
+
+    public function experience(): int
+    {
+        return $this->experience;
+    }
+
+    public function gainExperience(): void
+    {
+        $this->experience += 10;
     }
 }
