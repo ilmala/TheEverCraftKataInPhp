@@ -13,24 +13,44 @@ class Attack
 
     public function resolveHit(int $roll): bool
     {
-        $isCriticalHit = $roll === 20;
-        $roll = $roll + $this->character->strength->modifier();
-        $hit = $roll >= $this->opponent->armorClass();
+        $isCriticalHit = $this->isCriticalHit($roll);
+        $isHit = $this->isHit($roll);
 
-        if($hit) {
-            $this->character->gainExperience();
+        if ($isHit) {
+            $this->applyExperience();
         }
 
-        if($isCriticalHit){
+        $this->applyDamage($isCriticalHit, $isHit);
+
+        return $isHit;
+    }
+
+    protected function isCriticalHit(int $roll): bool
+    {
+        return $roll === 20;
+    }
+
+    protected function isHit(int $roll): bool
+    {
+        $roll = $roll + $this->character->strength->modifier();
+        return $roll >= $this->opponent->armorClass();
+    }
+
+    protected function applyExperience(): void
+    {
+        $this->character->gainExperience(10);
+    }
+
+    protected function applyDamage(bool $isCriticalHit, bool $isHit): void
+    {
+        if ($isCriticalHit) {
             $this->opponent->applyDamage(
                 damage: $this->character->criticalDamage(),
             );
-        }elseif($hit) {
+        } elseif ($isHit) {
             $this->opponent->applyDamage(
                 damage: $this->character->baseDamage(),
             );
         }
-
-        return $hit;
     }
 }

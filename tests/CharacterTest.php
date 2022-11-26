@@ -29,10 +29,10 @@ it('can set valid alignment', function (Alignment $alignment) {
     expect($character->alignment)->toBe($alignment);
 })
     ->with([
-    'Good' => Alignment::Good,
-    'Neutral' => Alignment::Neutral,
-    'Evil' => Alignment::Evil,
-]);
+        'Good' => Alignment::Good,
+        'Neutral' => Alignment::Neutral,
+        'Evil' => Alignment::Evil,
+    ]);
 
 it('can not set an invalid alignment', function () {
     $character = new Character;
@@ -117,6 +117,21 @@ it('is dead when have 0 or less hit points ', function () {
     expect($character->isAlive())->toBeFalse();
 });
 
+it('hit points increase by 5 for each level + constitution modifier', function ($xp, $hp, $con) {
+    $character = new Character;
+    $character->constitution->setScore($con);
+    $character->gainExperience($xp);
+    expect($character->hitPoints())->toBe($hp);
+})
+    ->with([
+        "Level 1 - Hp 5 - 10 Con" => [0, 5, 10],
+        "Level 2 - Hp 10 - 10 Con" => [1000, 10, 10],
+        "Level 3 - Hp 15 - 10 Con" => [2000, 15, 10],
+        "Level 10 - Hp 50 - 10 Con" => [9000, 50, 10],
+        "Level 2 - Hp 12 - 15 Con" => [1000, 12, 15],
+        "Level 2 - Hp 8 - 6 Con" => [1000, 8, 6],
+    ]);
+
 // Damage
 it('get a default damage of 1', function () {
     $character = new Character;
@@ -172,3 +187,24 @@ it('can gains experience points', function () {
     expect($character->experience())->toBe(10);
 });
 
+// Levels
+it("has Level defaults to 1", function () {
+    $character = new Character;
+
+    expect($character->level())->toBe(1);
+});
+
+it("with experience points gains a level", function ($xp, $level) {
+    $character = new Character;
+    $character->gainExperience($xp);
+
+    expect($character->level())->toBe($level);
+})
+    ->with([
+        "0 xp - 1 lvl" => ['xp' => 0, 'level' => 1],
+        "999 xp - 1 lvl" => ['xp' => 999, 'level' => 1],
+        "1000 xp - 2 lvl" => ['xp' => 1000, 'level' => 2],
+        "2000 xp - 3 lvl" => ['xp' => 2000, 'level' => 3],
+        "3000 xp - 4 lvl" => ['xp' => 3000, 'level' => 4],
+        "9000 xp - 10 lvl" => ['xp' => 9000, 'level' => 10],
+    ]);

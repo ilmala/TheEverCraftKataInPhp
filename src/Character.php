@@ -31,7 +31,7 @@ class Character
 
     public function hitPoints(): int
     {
-        return max($this->hitPoints + $this->constitution->modifier(), 1) - $this->damage;
+        return max(($this->hitPoints * $this->level()) + $this->constitution->modifier(), 1) - $this->damage;
     }
 
     public function applyDamage(int $damage): void
@@ -61,8 +61,13 @@ class Character
         return $this->experience;
     }
 
-    public function gainExperience(): void
+    public function gainExperience(int $experience): void
     {
-        $this->experience += 10;
+        $this->experience += $experience;
+    }
+
+    public function level(): int
+    {
+        return 1 + intval($this->experience / 1000);
     }
 }
