@@ -9,24 +9,24 @@ use TypeError;
 
 it('can get and set the Name', function () {
     $character = new Character;
-    $character->name = 'Uggiel';
+    $character->setName('Uggiel');
 
-    expect($character->name)->toBe("Uggiel");
+    expect($character->name())->toBe("Uggiel");
 });
 
 // Alignment
 it('can get and set the Alignment', function () {
     $character = new Character;
-    $character->alignment = Alignment::Neutral;
+    $character->setAlignment(Alignment::Neutral);
 
-    expect($character->alignment)->toBe(Alignment::Neutral);
+    expect($character->alignment())->toBe(Alignment::Neutral);
 });
 
 it('can set valid alignment', function (Alignment $alignment) {
     $character = new Character;
-    $character->alignment = $alignment;
+    $character->setAlignment($alignment);
 
-    expect($character->alignment)->toBe($alignment);
+    expect($character->alignment())->toBe($alignment);
 })
     ->with([
         'Good' => Alignment::Good,
@@ -36,9 +36,9 @@ it('can set valid alignment', function (Alignment $alignment) {
 
 it('can not set an invalid alignment', function () {
     $character = new Character;
-    $character->alignment = 'invalid-alignment';
+    $character->setAlignment('invalid-alignment');
 
-    expect($character->alignment)->toBe('invalid-alignment');
+    expect($character->alignment())->toBe('invalid-alignment');
 })
     ->throws(TypeError::class);
 

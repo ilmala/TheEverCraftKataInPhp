@@ -7,11 +7,11 @@ use EverKraft\Enums\Alignment;
 
 class Character
 {
-    public string $name;
-    public Alignment $alignment = Alignment::Neutral;
+    protected string $name;
+    protected Alignment $alignment = Alignment::Neutral;
     protected int $armorClass = 10;
     protected int $hitPoints = 5;
-    public int $damage = 0;
+    protected int $damage = 0;
     protected int $experience = 0;
     public Ability $constitution;
     public Ability $dexterity;
@@ -22,6 +22,28 @@ class Character
         $this->constitution = new Ability();
         $this->dexterity = new Ability();
         $this->strength = new Ability();
+    }
+
+    public function setName(string $name): static
+    {
+        $this->name = $name;
+        return $this;
+    }
+
+    public function name(): string
+    {
+        return $this->name;
+    }
+
+    public function setAlignment(Alignment $alignment): static
+    {
+        $this->alignment = $alignment;
+        return $this;
+    }
+
+    public function alignment(): Alignment
+    {
+        return $this->alignment;
     }
 
     public function armorClass(): int
