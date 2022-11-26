@@ -13,8 +13,9 @@ class Attack
 
     public function resolveHit(int $roll): bool
     {
+        $modifiedRoll = $this->resolveRoll($roll);
         $isCriticalHit = $this->isCriticalHit($roll);
-        $isHit = $this->isHit($roll);
+        $isHit = $this->isHit($modifiedRoll);
 
         if ($isHit) {
             $this->applyExperience();
@@ -25,6 +26,13 @@ class Attack
         return $isHit;
     }
 
+    public function resolveRoll(int $roll): int
+    {
+        $levelBonus = floor($this->character->level() / 2);
+
+        return $roll + $levelBonus + $this->character->strength->modifier();
+    }
+
     protected function isCriticalHit(int $roll): bool
     {
         return $roll === 20;
@@ -32,7 +40,6 @@ class Attack
 
     protected function isHit(int $roll): bool
     {
-        $roll = $roll + $this->character->strength->modifier();
         return $roll >= $this->opponent->armorClass();
     }
 

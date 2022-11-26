@@ -147,3 +147,19 @@ it("gains 10 experience points when successful attack", function(){
 
     expect($hero->experience())->toBe(10);
 });
+
+// Levels
+it("add 1 to attack roll for every even level", function($xp, $roll, $diff){
+    $hero = new Character;
+    $hero->gainExperience($xp);
+    $opponent = new Character;
+    $attack = new Attack($hero, $opponent);
+    $modifiedRoll = $attack->resolveRoll($roll);
+
+    expect($modifiedRoll - $roll)->toBe($diff);
+})->with([
+    "Lv 1 - Roll 10 - 0" => [0, 10, 0],
+    "Lv 2 - Roll 10 - 1" => [1000, 10, 1],
+    "Lv 3 - Roll 10 - 1" => [2000, 10, 1],
+    "Lv 4 - Roll 10 - 2" => [3000, 10, 2],
+]);
